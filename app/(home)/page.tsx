@@ -9,7 +9,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Home() {
-  // chamar prisma e pegar barbearias
   const session = await getServerSession(authOptions);
 
   const [barbershops, confirmedBookings] = await Promise.all([
@@ -35,7 +34,10 @@ export default async function Home() {
       <Header />
 
       <div className="px-5 pt-5">
-        <h2 className="text-xl font-bold">Olá, Erick!</h2>
+        <h2 className="text-xl font-bold">
+          {session?.user ? `Olá, ${session.user.name?.split(" ")[0]}!` : "Olá, Faça seu Login!"}
+        </h2>
+
         <p className="capitalize text-sm">
           {format(new Date(), "EEEE',' dd 'de' MMMM", {
             locale: ptBR,
